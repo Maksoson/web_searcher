@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Гугл на коленке</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static "searcher/css/styles.css" %}">
+</head>
+
+<body>
+<div class="predict__wrapper">
+    <div class="predict__block">
+        <form action="/predict/" enctype="multipart/form-data" method="post" class="predict__form js-predict">
+            {% csrf_token %}
+            <div class="predict__input-file">
+                <label>
+                    <span class="underline-link">Выберите файл</span>
+                    <input type="file" name="audio" required>
+                </label>
+            </div>
+
+            <img class="predict__image-preloader m-display__none js-predict__preloader"
+                 src="{% static 'searcher/images/preloader.svg' %}" alt="preloader" >
+            <button class="predict__button js-predict-btn" type="button">Старт</button>
+        </form>
+    </div>
+</div>
+
+<div class="predicted__wrapper m-display__none js-predicted">
+    <div class="predicted__block">
+        <div class="predicted__text js-predicted__genre"></div>
+        <figure class="js-predicted__audio m-display__none">
+            <audio controls src="">
+                Your browser does not support the
+                <code>audio</code> element.
+            </audio>
+        </figure>
+    </div>
+</div>
+
+<div class="train__wrapper">
+    <div class="train__block">
+        <form action="/train/" method="post" class="train__form js-train">
+            {% csrf_token %}
+            <button class="train__button js-train-btn" type="button">Переобучить модель</button>
+
+            <img class="train__image-preloader m-display__none js-train__preloader"
+                 src="{% static 'searcher/images/preloader.svg' %}" alt="preloader" >
+        </form>
+
+        <div class="train__text m-display__none js-train__success"></div>
+    </div>
+</div>
+</body>
+
+<footer>
+    {% block javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static "searcher/js/main/script.js" %}"></script>
+    {% endblock javascript %}
+</footer>
+</html>
