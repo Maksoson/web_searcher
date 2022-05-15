@@ -3173,7 +3173,7 @@ function registerFlag(flag) {
  * @param {String} flags Flags being used to construct the regex.
  * @param {Number} pos Position to search for tokens within `pattern`.
  * @param {Number} scope Regex scope to apply: 'default' or 'class'.
- * @param {Object} context Context object to use for token handler functions.
+ * @param {Object} context Context object to use for token handler common.
  * @returns {Object} Object with properties `matchLength`, `output`, and `reparse`; or `null`.
  */
 function runTokens(pattern, flags, pos, scope, context) {
@@ -3869,7 +3869,7 @@ XRegExp.matchChain = function(str, chain) {
  * or regex, and the replacement can be a string or a function to be called for each match. To
  * perform a global search and replace, use the optional `scope` argument or include flag g if using
  * a regex. Replacement strings can use `${n}` for named and numbered backreferences. Replacement
- * functions can use named backreferences via `arguments[0].name`. Also fixes browser bugs compared
+ * common can use named backreferences via `arguments[0].name`. Also fixes browser bugs compared
  * to the native `String.prototype.replace` and can be used reliably cross-browser.
  *
  * @memberOf XRegExp
@@ -3885,7 +3885,7 @@ XRegExp.matchChain = function(str, chain) {
  *       backreference n/nn.
  *     - ${n} - Where n is a name or any number of digits that reference an existent capturing
  *       group, inserts backreference n.
- *   Replacement functions are invoked with three or more arguments:
+ *   Replacement common are invoked with three or more arguments:
  *     - The matched substring (corresponds to $& above). Named backreferences are accessible as
  *       properties of this first argument.
  *     - 0..n arguments, one for each backreference (corresponding to $1, $2, etc. above).
@@ -4254,7 +4254,7 @@ fixed.match = function(regex) {
 
 /**
  * Adds support for `${n}` tokens for named and numbered backreferences in replacement text, and
- * provides named backreferences to replacement functions as `arguments[0].name`. Also fixes browser
+ * provides named backreferences to replacement common as `arguments[0].name`. Also fixes browser
  * bugs in replacement text syntax when performing a replacement using a nonregex search value, and
  * the value of a replacement regex's `lastIndex` property during replacement iterations and upon
  * completion. Calling `XRegExp.install('natives')` uses this to override the native method. Note
@@ -4285,7 +4285,7 @@ fixed.replace = function(search, replacement) {
     // Don't use `typeof`; some older browsers return 'function' for regex objects
     if (isType(replacement, 'Function')) {
         // Stringifying `this` fixes a bug in IE < 9 where the last argument in replacement
-        // functions isn't type-converted to a string
+        // common isn't type-converted to a string
         result = nativ.replace.call(String(this), search, function() {
             var args = arguments;
             var i;
@@ -4305,7 +4305,7 @@ fixed.replace = function(search, replacement) {
             if (isRegex && search.global) {
                 search.lastIndex = args[args.length - 2] + args[0].length;
             }
-            // ES6 specs the context for replacement functions as `undefined`
+            // ES6 specs the context for replacement common as `undefined`
             return replacement.apply(undefined, args);
         });
     } else {

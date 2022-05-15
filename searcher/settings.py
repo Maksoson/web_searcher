@@ -39,9 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Libraries, plugins
-    'ckeditor',
-    'ckeditor_uploader',
     # Applications
     'applications.main_page',
     'applications.logs'
@@ -147,21 +144,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# CKEditor
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CKEDITOR_IMAGE_BACKEND = 'pillow'
-CKEDITOR_UPLOAD_PATH = 'editor_uploads/'
-CKEDITOR_UPLOAD_ROOT = MEDIA_URL + CKEDITOR_UPLOAD_PATH
-CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
-CKEDITOR_RESTRICT_BY_USER = True
-CKEDITOR_BROWSE_SHOW_DIRS = True
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'None',
-        'height': 300,
-        'width': 1000,
-    },
-}
-
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000

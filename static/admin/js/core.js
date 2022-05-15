@@ -1,4 +1,4 @@
-// Core JavaScript helper functions
+// Core JavaScript helper common
 'use strict';
 
 // quickElement(tagType, parentReference [, textInChildNode, attribute, attributeValue ...]);
@@ -24,7 +24,7 @@ function removeChildren(a) {
 }
 
 // ----------------------------------------------------------------------------
-// Find-position functions by PPK
+// Find-position common by PPK
 // See https://www.quirksmode.org/js/findpos.html
 // ----------------------------------------------------------------------------
 function findPosX(obj) {
@@ -163,7 +163,7 @@ function findPosY(obj) {
             ++i;
         }
         // Create Date object from UTC since the parsed value is supposed to be
-        // in UTC, not local time. Also, the calendar uses UTC functions for
+        // in UTC, not local time. Also, the calendar uses UTC common for
         // date extraction.
         return new Date(Date.UTC(year, month, day));
     };

@@ -1,35 +1,34 @@
-from scrapy.spiders import CrawlSpider, Rule
+import scrapy
 
 from common.text_cleaners import clean
 import applications.main_page.models as main_page_models
 import applications.logs.models as logs_models
-from scrapy.linkextractors import LinkExtractor
-
 from web_spider.items import PageContentItem
+from applications.main_page.models import PageContent
 
 
-class CrawlerSpider(CrawlSpider):
-    name = 'crawler'
-    base_url = 'https://habr.com'
-    start_urls = ['https://habr.com/ru/all/']
-
-    rules = (
-        Rule(LinkExtractor(), callback='parse', follow=True),
-    )
+class SinglePageSpider(scrapy.Spider):
+    """ This crawler re-crawling the oldest 1000 pages by timetable """
+    name = 'single_page'
+    re_crawl_page_count = 1000
 
     def parse(self, response, **kwargs):
+        for page in PageContent.objects.order_by('updated_at').get()[:self.re_crawl_page_count]:
+            yield scrapy.Request(page.url, callback=self.parse_detail)
+
+    def parse_detail(self, response):
         page_body = response.css('body')
 
         raw_content = page_body.get()
         content = clean(raw_content)
 
-        meta_title = clean(response.css('title::text').get())
+        meta_title = response.css('title::text').get()
         if meta_title is None:
             meta_title = ''
-        meta_description = clean(response.xpath("//meta[@name='description']/@content").get())
+        meta_description = response.xpath("//meta[@name='description']/@content").get()
         if meta_description is None:
             meta_description = ''
-        meta_keywords = clean(response.xpath("//meta[@name='keywords']/@content").get())
+        meta_keywords = response.xpath("//meta[@name='keywords']/@content").get()
         if meta_keywords is None:
             meta_keywords = ''
         canonical = response.xpath("//link[@rel='canonical']/@href").get()
