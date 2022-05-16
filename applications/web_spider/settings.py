@@ -3,7 +3,7 @@ import sys
 import django
 
 # DJANGO INTEGRATION
-sys.path.append(os.path.dirname(os.path.abspath('.')))
+sys.path.append(os.path.dirname(os.path.abspath('')))
 # Do not forget the change iCrawler part based on your project name
 os.environ['DJANGO_SETTINGS_MODULE'] = 'searcher.settings'
 
@@ -22,8 +22,8 @@ django.setup()
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 BOT_NAME = 'web_spider'
 
-SPIDER_MODULES = ['web_spider.spiders']
-NEWSPIDER_MODULE = 'web_spider.spiders'
+SPIDER_MODULES = ['applications.web_spider.spiders']
+NEWSPIDER_MODULE = 'applications.web_spider.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'web_spider (+http://www.yourdomain.com)'
@@ -32,7 +32,7 @@ NEWSPIDER_MODULE = 'web_spider.spiders'
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 50
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -66,7 +66,7 @@ DOWNLOAD_DELAY = 3
 
 MAX_REQUESTS_PER_DOMAIN = 3
 DOWNLOADER_MIDDLEWARES = {
-    'web_spider.middlewares.DomainLimitMiddleware': 543,
+    'applications.web_spider.middlewares.DomainLimitMiddleware': 543,
 }
 
 # Enable or disable extensions
@@ -78,7 +78,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'web_spider.pipelines.ScrapyAppPipeline': 300,
+    'applications.web_spider.pipelines.ScrapyAppPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -101,3 +101,7 @@ ITEM_PIPELINES = {
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+RETRY_ENABLED = False
+REACTOR_THREADPOOL_MAXSIZE = 20
+SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'

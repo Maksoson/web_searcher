@@ -22,11 +22,11 @@ def remove_all_tags(text):
 
 
 def remove_specials(text):
-    return re.sub(r'(\\n)|(\\r)|( - )|( — )', ' ', text)
+    return re.sub(r'(\\n)|(\\r)', ' ', text)
 
 
 def remove_symbols(text):
-    return re.sub(r'[\[\\\^$\.\|\?\*+\(\)\]\/,!:↑↓&%;\'"_=“«»#●→©{}<>]', ' ', text)
+    return re.sub(r'[\[\\\^$\.\|\?\*+\(\)\]\/,!:↑↓&%;\'"_=“«»#●→©{}<>—\-~”]', ' ', text)
 
 
 def remove_duplicate_spaces(text):
